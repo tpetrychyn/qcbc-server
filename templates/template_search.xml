@@ -1,0 +1,10 @@
+<results>
+	{% for r in o %}
+	<result>
+		<name>{{r.name}}</name>
+		<address>{{r.address}}</address>
+		<lat>{{r.lat}}</lat>
+		<long>{{r.long}}</long>
+	</result>
+	{% endfor %}
+</results>

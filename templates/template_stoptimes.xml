@@ -1,0 +1,13 @@
+<stoptimes>
+  {% for st in data %}
+  <stoptime>
+    <pred_time>{{st.pred_time}}</pred_time>
+    <intersection>{{st.intersection}}</intersection>
+    <bus_id>{{st.bus_id}}</bus_id>
+    <stop_id>{{st.stop_id}}</stop_id>
+    <route_id>{{st.route_id}}</route_id>
+    <stop_time_id>{{st.stop_time_id}}</stop_time_id>
+    <line_name>{{st.line_name}}</line_name>
+  </stoptime>
+  {% endfor %}
+</stoptimes>

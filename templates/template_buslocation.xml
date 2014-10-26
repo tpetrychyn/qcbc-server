@@ -1,0 +1,8 @@
+<buslocation>
+  <bus_id>{{o.bus_id}}</bus_id>
+  <route_id>{{o.route_id}}</route_id>
+  <longitude>{{o.longitude}}</longitude>
+  <latitude>{{o.latitude}}</latitude>
+  <bearing>{{o.bearing}}</bearing>
+  <desc>{{o.desc}}</desc>
+</buslocation>

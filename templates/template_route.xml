@@ -1,0 +1,9 @@
+<route>
+  <route_id>{{o.route_id}}</route_id>
+  <colour>{{o.colour}}</colour>
+  <full_name>{{o.full_name}}</full_name>
+  <file_name>{{o.file_name}}</file_name>
+
+  <stops>
+  </stops>
+</route>

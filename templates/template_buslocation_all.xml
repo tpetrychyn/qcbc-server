@@ -1,0 +1,13 @@
+<buslocations>
+  <timestamp>{{timestamp}}</timestamp>
+  {% for i, bus in data.iteritems() %}
+  <buslocation>
+    <bus_id>{{bus.bus_id}}</bus_id>
+    <route_id>{{bus.route_id}}</route_id>
+    <longitude>{{bus.longitude}}</longitude>
+    <latitude>{{bus.latitude}}</latitude>
+    <bearing>{{bus.bearing}}</bearing>
+    <desc>{{bus.desc}}</desc>
+  </buslocation>
+  {% endfor %}
+</buslocations>

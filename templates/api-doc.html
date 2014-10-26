@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Regina Transit Cloud API</title>
+	<meta name="author" content="Kyle Smyth">
+	<!-- Date: 2011-08-16 -->
+<style>
+html {
+	font-size: 11px;
+	font-family: 'Helvetica Neue',Arial,Helvetica,sans-serif;
+	line-height: 20px;
+}
+
+body {
+	background-color: #cccccc;
+	padding: 0px;
+	margin: 0px;
+}
+#wrapper{
+	padding: 0px;
+	margin: 0px auto;
+	width: 960px;
+	background-color: #ffffff;
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
+	border-radius: 25px;
+	
+}
+
+table {
+	margin: 10px;
+	border-collapse:collapse;
+}
+
+.function {
+	margin: 10px;
+	border-bottom: 1px solid #000000;
+}
+.function tr {
+	width: 100%;
+}
+.bottom {
+	border-bottom: 1px solid #cccccc;
+}
+.top {
+	margin:10px;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+	<div id="wrapper">
+		<div class="top">
+			<h1>Regina Transit Cloud API Documentation</h1>
+			<h2>Usage</h2>
+			<table>
+				<thead>
+					<tr>
+						<td><h3>Resource</h3></td>
+						<td><h3>Description</h3></td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><a href="api-doc.html#tl_get_route">GET /transitlive/get_route</a></td>
+						<td><p>Returns a route with all of the stops associated with it. Includes the name of the route and each stops id, intersection and geolocation.</p></td>
+					</tr>
+					<tr>
+						<td><a href="api-doc.html#tl_get_bus_location">GET /transitlive/get_bus_location</a></td>
+						<td><p>Returns the current location of a bus or all buses. Data includes it's id, route, geolocation, bearing and description.</p></td>
+					</tr>
+					<tr>
+						<td><a href="api-doc.html#get_route">GET /reginaroutes/get_route</a></td>
+						<td><p>Returns one or more trip plans including the transfers. </p></td>
+					</tr>
+				</tbody>
+			</table>
+			<h2>Functions</h2>
+		</div>
+		
+		<div class="function" id="tl_get_route">
+			<h2>/transitlive/get_route</h2>
+			<table>
+				<thead>
+					
+					<tr>
+						<td><h3>Parameters</h3></td>
+						<td><h3>Description</h3></td>
+					</tr>
+					
+				</thead>
+				
+				<tbody>
+					<!-- Param -->
+					<tr>
+						<td>route_id</td>
+						<td><p>Id for a route, use all to get all running buses. Bus must be running to return a result</p></td>
+					</tr>
+					<tr class="bottom">
+						<td></td>
+						<td><p><strong>Example: </strong>'all' for all routes, or 1,2,3,4,5,6 or 23</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<h3>Sample Output</h3>
+			<p>
+<pre style='color:#000020;background:#f6f8ff;'>
+			<span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>3<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>colour</span><span style='color:#0057a6; '>></span>0xFF9933<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>colour</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>short_name</span><span style='color:#0057a6; '>></span><span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>short_name</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>full_name</span><span style='color:#0057a6; '>></span>UNIVERSITY - SHERWOOD<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>full_name</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>file_name</span><span style='color:#0057a6; '>></span>route3-301010-MTWRFS.kml<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>file_name</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>stops</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>stop</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>stop_id</span><span style='color:#0057a6; '>></span>202<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>stop_id</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>3<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>intersection</span><span style='color:#0057a6; '>></span>ROCHDALE BLVD %40 SHERWOOD MALL %28EB%29<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>intersection</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>stop_order</span><span style='color:#0057a6; '>></span>0<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>stop_order</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>longitude</span><span style='color:#0057a6; '>></span>-104.666232<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>longitude</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>latitude</span><span style='color:#0057a6; '>></span>50.495631<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>latitude</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>is_detour</span><span style='color:#0057a6; '>></span>0<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>is_detour</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>stop</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>stops</span><span style='color:#0057a6; '>></span>
+			<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route</span><span style='color:#0057a6; '>></span>
+	</pre></p>
+			
+		</div>
+		
+		<div class="function" id="tl_get_bus_location">
+			<h2>/transitlive/get_bus_location</h2>
+			<table>
+				<thead>
+					
+					<tr>
+						<td><h3>Parameters</h3></td>
+						<td><h3>Description</h3></td>
+					</tr>
+					
+				</thead>
+				
+				<tbody>
+					<!-- Param -->
+					<tr>
+						<td>bus_id</td>
+						<td><p>Id for a TransitLive bus, use all to get all running buses. Bus must be running to return a result</p></td>
+					</tr>
+					<tr class="bottom">
+						<td></td>
+						<td><p><strong>Example: </strong>'all' for all buses, or 621</p></td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<h3>Sample Output</h3>
+			<p><pre style='color:#000020;background:#f6f8ff;'>
+			<span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>buslocations</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>buslocation</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>bus_id</span><span style='color:#0057a6; '>></span>624<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>bus_id</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>3<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>longitude</span><span style='color:#0057a6; '>></span>-104.652450562<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>longitude</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>latitude</span><span style='color:#0057a6; '>></span>50.4770545959<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>latitude</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>bearing</span><span style='color:#0057a6; '>></span>130<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>bearing</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>desc</span><span style='color:#0057a6; '>></span>UNIVERSITY<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>desc</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>buslocation</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>buslocation</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>bus_id</span><span style='color:#0057a6; '>></span>626<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>bus_id</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>13<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>longitude</span><span style='color:#0057a6; '>></span>-104.638618469<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>longitude</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>latitude</span><span style='color:#0057a6; '>></span>50.4263191223<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>latitude</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>bearing</span><span style='color:#0057a6; '>></span>90<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>bearing</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>desc</span><span style='color:#0057a6; '>></span>MOUNT ROYAL<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>desc</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>buslocation</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>buslocation</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>bus_id</span><span style='color:#0057a6; '>></span>621<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>bus_id</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>3<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>longitude</span><span style='color:#0057a6; '>></span>-104.592269897<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>longitude</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>latitude</span><span style='color:#0057a6; '>></span>50.416267395<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>latitude</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>bearing</span><span style='color:#0057a6; '>></span>0<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>bearing</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>desc</span><span style='color:#0057a6; '>></span>SHERWOOD<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>desc</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>buslocation</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>buslocations</span><span style='color:#0057a6; '>></span>
+			</pre></p>
+			
+		</div>
+		
+		
+		<div class="function" id="get_route">
+			<h2>/reginaroutes/get_route</h2>
+			<table>
+				<thead>
+					
+					<tr>
+						<td><h3>Parameters</h3></td>
+						<td><h3>Description</h3></td>
+					</tr>
+					
+				</thead>
+				
+				<tbody>
+					<!-- Param -->
+					<tr>
+						<td>from_long</td>
+						<td><p>Longitude co-ordinate of a departure bus stop. Must be within Regina.</p></td>
+					</tr>
+					<tr class="bottom">
+						<td></td>
+						<td><p><strong>Example: </strong>-104629678</p></td>
+					</tr>
+					
+					<!-- Param -->
+					<tr>
+						<td>from_lat</td>
+						<td><p>Latitude co-ordinate of a departure bus stop. Must be within Regina.</p></td>
+					</tr>
+					<tr class="bottom">
+						<td></td>
+						<td><p><strong>Example:</strong> 50482744</p></td>
+					</tr>
+					
+					<!-- Param -->
+					<tr>
+						<td>to_long</td>
+						<td><p>Longitude co-ordinate of an arrival bus stop. Must be within Regina.</p></td>
+					</tr>
+					<tr class="bottom">
+						<td></td>
+						<td><p><strong>Example: </strong>-104629678</p></td>
+					</tr>
+					
+					<!-- Param -->
+					<tr>
+						<td>to_lat</td>
+						<td><p>Latitude co-ordinate of an arrival bus stop. Must be within Regina.</p></td>
+					</tr>
+					<tr class="bottom">
+						<td></td>
+						<td><p><strong>Example:</strong> 50482744</p></td>
+					</tr>
+					
+					<!-- Param -->
+					<tr>
+						<td>time</td>
+						<td>Takes unix time for the arrival/departure</td>
+					</tr>
+					<tr class="bottom">
+						<td></td>
+						<td><p><strong>Example: </strong>1313536428.129369</p></td>
+					</tr>
+					
+					<!-- Param -->
+					<tr>
+						<td><p>direction</p></td>
+						<td><p>Direction with respect to time. If set to 'depart', the route will find a bus route departing at the given time. If set to 'arrive' it will find a route with an arrival time of the given time.</p>
+							</td>
+					</tr>
+					<tr class="bottom">
+						<td>optional</td>
+						<td>
+							<p><strong>Example: </strong>'depart' or 'arrive'</p>
+						</td>
+					</tr>
+					
+				</tbody>
+			</table>
+			<h3>Sample Output</h3>
+			<p><pre style='color:#000020;background:#f6f8ff;'>
+			<span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>routes</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>start_time</span><span style='color:#0057a6; '>></span>16%3A55%3A00<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>start_time</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>end_time</span><span style='color:#0057a6; '>></span>17%3A48%3A00<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>end_time</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>duration</span> <span style='color:#474796; '>unit</span><span style='color:#308080; '>=</span><span style='color:#1060b6; '>'</span><span style='color:#1060b6; '>minutes</span><span style='color:#1060b6; '>'</span><span style='color:#0057a6; '>></span>53<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>duration</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>transfers</span><span style='color:#0057a6; '>></span>1<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>transfers</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>walking_distance</span> <span style='color:#474796; '>unit</span><span style='color:#308080; '>=</span><span style='color:#1060b6; '>'</span><span style='color:#1060b6; '>km</span><span style='color:#1060b6; '>'</span><span style='color:#0057a6; '>></span>0.27<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>walking_distance</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>rides</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>ride</span><span style='color:#0057a6; '>></span>
+			        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>6<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route_id</span><span style='color:#0057a6; '>></span>
+			        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>route_name</span><span style='color:#0057a6; '>></span>DOWNTOWN<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route_name</span><span style='color:#0057a6; '>></span>
+			        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>depart_from</span><span style='color:#0057a6; '>></span>ARGYLE%20ST%20N%20%40%20DONAHUE%20AVE%20%28SB%29<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>depart_from</span><span style='color:#0057a6; '>></span>
+			        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>depart_time</span><span style='color:#0057a6; '>></span>16%3A55%3A00<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>depart_time</span><span style='color:#0057a6; '>></span>
+			        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>arrive_to</span><span style='color:#0057a6; '>></span>11TH%20AVE%20%40%20HAMILTON%20ST%20%28WB%29<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>arrive_to</span><span style='color:#0057a6; '>></span>
+			        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>arrive_time</span><span style='color:#0057a6; '>></span>17%3A12%3A00<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>arrive_time</span><span style='color:#0057a6; '>></span>
+			        <span style='color:#0057a6; '>&lt;</span><span style='color:#333385; '>is_transfer</span><span style='color:#0057a6; '>></span>0<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>is_transfer</span><span style='color:#0057a6; '>></span>
+			      <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>ride</span><span style='color:#0057a6; '>></span>
+			    <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>rides</span><span style='color:#0057a6; '>></span>
+			  <span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>route</span><span style='color:#0057a6; '>></span>
+			<span style='color:#0057a6; '>&lt;/</span><span style='color:#333385; '>routes</span><span style='color:#0057a6; '>></span>
+			</pre></p>
+			
+		</div>
+	</div>
+</body>
+</html>

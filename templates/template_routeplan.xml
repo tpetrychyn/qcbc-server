@@ -1,0 +1,26 @@
+<routes>
+	{% for route in o %}
+		<route>
+			<start_time>{{route.start}}</start_time>
+			<end_time>{{route.end}}</end_time>
+			<duration unit='minutes'>{{route.duration}}</duration>
+			<transfers>{{route.num_transfers}}</transfers>
+			<walking_distance unit='km'>{{route.walking_distance}}</walking_distance>
+			<rides>
+				{% for ride in route.transfers %}
+					
+					<ride>
+						<route_id>{{ride.route_id}}</route_id>
+						<route_name>{{ride.route_name}}</route_name>
+						<depart_from>{{ride.depart_stop}}</depart_from>
+						<depart_time>{{ride.depart_time}}</depart_time>
+						<arrive_to>{{ride.arrive_stop}}</arrive_to>
+						<arrive_time>{{ride.arrive_time}}</arrive_time>
+						<is_transfer>{{ride.is_transfer}}</is_transfer>
+					</ride>
+					
+				{% endfor %}
+			</rides>
+		</route>
+	{% endfor %}
+</routes>

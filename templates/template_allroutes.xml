@@ -1,0 +1,28 @@
+<routes>
+{% for route in routes.values() %}
+    <route_id>{{route.route_id}}</route_id>
+    <colour>{{route.colour}}</colour>
+    <short_name>{{route.short_name}}</short_name>
+    <full_name>{{route.full_name}}</full_name>
+    <file_name>{{route.file_name}}</file_name>
+{%  endfor %}
+</routes>
+
+
+<stops>
+{% for stop in stops.values() %}
+    <stop>
+        <stop_id>{{stop.stop_id}}</stop_id>
+        <route_ids>
+        {% for id in stop.route_ids %}
+            <id>{{id}}</id>
+        {% endfor %}
+        </route_ids>
+        <intersection>{{stop.intersection}}</intersection>
+        <stop_order>{{stop.stop_order}}</stop_order>
+        <longitude>{{stop.longitude}}</longitude>
+        <latitude>{{stop.latitude}}</latitude>
+        <is_detour>{{stop.is_detour}}</is_detour>
+    </stop>
+{% endfor %}
+</stops>

@@ -1,0 +1,8 @@
+<detours>
+  {% for detour in data %}
+  <detour>
+    <stop_id>{{detour.stop_id}}</stop_id>
+    <message>{{detour.message}}</message>
+  </detour>
+  {% endfor %}
+</detours>

@@ -1,0 +1,14 @@
+<route>
+	<route_id>{{o.route_id}}</route_id>
+	<stops>
+	{% for stop in o.stops %}
+		<stop>
+		  <id>{{stop.stop_id}}</id>
+		  <name>{{stop.name}}</name>
+		  <direction>{{stop.direction}}</direction>
+		  <long>{{stop.longitude}}</long>
+		  <lat>{{stop.latitude}}</lat>
+		</stop>
+	{% endfor %}
+	</stops>
+</route>
