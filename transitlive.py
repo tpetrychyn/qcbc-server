@@ -17,6 +17,8 @@ class TransitLive:
         'ROUTE_INFO': ['ajax/livemap.php?action=get_routes', 'routeID'],
         'STOP_TIMES': 'ajax/livemap.php?action=stop_times&stop=%s&routes=%s&lim=%s',
         'DETOURS': 'ajax/livemap.php?action=detours',
+        'ROUTE_PATHS': "json/polyLines/route%s.js",
+        'STOPS': "json/stops.js",
         'STOP_INFO': 'testlines/route%s.js'
     }
     
@@ -313,15 +315,6 @@ class TransitLiveUpdater:
         # open database
         self.prepare_database()
 
-        # launch updater threads
-        self.location_thread = TransitLiveUpdater.RepeatedUpdater(
-            [self.update_location_data], 1)
-        
-        self.route_thread = TransitLiveUpdater.RepeatedUpdater(
-            [self.update_detour_data, self.update_route_data, self.update_stop_data], 5600)
-            
-        self.location_thread.start()
-        self.route_thread.start()
         
     def prepare_database(self):
         self.database = sqlite3.connect(TransitLiveUpdater.DATABASE, check_same_thread=False)
@@ -329,6 +322,23 @@ class TransitLiveUpdater:
         self.database.execute("CREATE TABLE IF NOT EXISTS locations " \
             + "(id INTEGER PRIMARY KEY, route_id INTEGER, lat real, " \
             + "lng real, text description, timestamp INTEGER);")
+
+
+    def start_updating(self):
+        # launch updater threads
+        self.location_thread = TransitLiveUpdater.RepeatedUpdater(
+            [self.update_location_data], 1)
+        
+        self.route_thread = TransitLiveUpdater.RepeatedUpdater([
+            self.update_detour_data, 
+            self.update_route_data, 
+            self.update_path_data,
+            self.update_stops_data,
+            self.store_route_data], 5600)
+            
+        self.location_thread.start()
+        self.route_thread.start()
+
         
     def update_location_data(self):
         if self.debug: print "[%s] update_location_data" % int(time.time())
@@ -402,7 +412,7 @@ class TransitLiveUpdater:
         
 
     def update_route_data(self):
-        if self.debug:print "[%s] update_route_data" % int(time.time())
+        if self.debug: print "[%s] update_route_data" % int(time.time())
 
         # Download and parse route meta-data
         url = TransitLive.API['MAIN'] % TransitLive.API['ROUTE_INFO'][0]
@@ -424,60 +434,60 @@ class TransitLiveUpdater:
         # with open(TransitLiveUpdater.ROUTES_FILE, 'w') as f:
         #     f.write(s)
 
-
-    def update_stop_data(self):
-        if self.debug: print "[%s] update_stop_data" % int(time.time())
+    def update_path_data(self):
+        if self.debug: print "[%s] update_path_data" % int(time.time())
 
         if len(self.routes) == 0:
             print "Routes not yet defined!"
-            return # TODO: Exception system        
+            return # TODO: Exception system 
 
-
-        for route in self.routes:
-            if route == "detours":
+        for route_id in self.routes:
+            if route_id == "detours":
                 continue
 
-            route_id = self.routes[route].route_id
+            # Download and parse path data
+            url = (TransitLive.API['MAIN'] % TransitLive.API['ROUTE_PATHS']) % route_id
 
-            # Download and parse stop meta-data
-            url = (TransitLive.API['MAIN'] % TransitLive.API['STOP_INFO']) % route_id
+            path_data = json.loads(urllib2.urlopen(url).read())
 
-            stop_data = json.loads(urllib2.urlopen(url).read())
-
-            # update stops
-            stops = []
-
-            for i in xrange(1, len(stop_data["features"])):
-                coordinates = stop_data["features"][i]["geometry"]["coordinates"]
-                properties = stop_data["features"][i]["properties"]
-                
-                stops.append(Stop({
-                    'stopID': properties["id"],
-                    'name': properties["name"],
-                    'direction': properties["dir"],
-                    'longitude': coordinates[0],
-                    'latitude': coordinates[1],
-                }))
-
-            self.routes[route_id].stops.stops = stops
-
-            # update path
             path_string = ""
-            path = stop_data["features"][0]["geometry"]["coordinates"]
-            for i in xrange(0, len(path)):
-                path_string = path_string + "%s,%s;" % (path[i][1], path[i][0])
-            
+            for latlng in path_data["coordinates"]:
+                path_string = path_string + "%s,%s;" % (latlng[0], latlng[1])
+
             self.routes[route_id].path = path_string
 
-        # Write to file
-        if self.debug: print "[%s] writing routes to file" % int(time.time())
-        s = pickle.dumps(self.routes)
-        with open(TransitLiveUpdater.ROUTES_FILE, 'w') as f:
-            f.write(s)
+    def update_stops_data(self):
+        if self.debug: print "[%s] update_stops_data" % int(time.time())
+
+        if len(self.routes) == 0:
+            print "Routes not yet defined!"
+            return # TODO: Exception system
+
+        url = (TransitLive.API['MAIN'] % TransitLive.API['STOPS'])
+
+        stops_data = json.loads(urllib2.urlopen(url).read())
+
+        for stop in stops_data:
+            properties = stop["properties"]
+            coordinates = stop["geometry"]["coordinates"]
+
+            new_stop = Stop({
+                'stopID': properties["id"],
+                'name': properties["name"],
+                'direction': properties["dir"],
+                'longitude': coordinates[0],
+                'latitude': coordinates[1],
+            })
+
+            for route_id in properties["r"]:
+                if (route_id not in self.routes):
+                    continue
+
+                self.routes[route_id].stops.stops.append(new_stop)
 
 
     def update_detour_data(self):
-        if self.debug:print "[%s] update_detour_data" % int(time.time())
+        if self.debug: print "[%s] update_detour_data" % int(time.time())
 
         url = TransitLive.API['MAIN'] % TransitLive.API['DETOURS']
 
@@ -497,7 +507,12 @@ class TransitLiveUpdater:
         with open(TransitLiveUpdater.DETOURS_FILE, 'w') as f:
             f.write(s)
                 
-            
+    def store_route_data(self):
+        # Write to file
+        if self.debug: print "[%s] writing routes to file" % int(time.time())
+        s = pickle.dumps(self.routes)
+        with open(TransitLiveUpdater.ROUTES_FILE, 'w') as f:
+            f.write(s)
             
     class RepeatedUpdater(threading.Thread):
         
@@ -555,8 +570,10 @@ def safe_cast(val, to_type, default=None):
 
 if __name__ == "__main__":
     import transitlive
-    
+
     tlu = transitlive.TransitLiveUpdater(debug=True)
+    tlu.start_updating()
+
     try:
         while threading.active_count() > 0:
             time.sleep(0.1)
