@@ -7,11 +7,11 @@ sever and scraping scripts for QueenCityBusChaser
 
 **virtualenv**
 
-* `virtualenv env`
-* `source env/bin/activate`
-* `pip install -r requirements-env.txt`
+    virtualenv env
+    source env/bin/activate
+    pip install -r requirements-env.txt
 
 **Execute**
 
-* python transitlive.py
-* python server.py
+    python transitlive.py
+    python server.py
