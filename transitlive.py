@@ -8,6 +8,7 @@ import cPickle as pickle
 import sqlite3
 import time
 import haversine
+import os
 
 class TransitLive:
 
@@ -304,6 +305,14 @@ class TransitLiveUpdater:
 
         import socket
     	socket.setdefaulttimeout(8)
+
+        if not os.path.exists('./cache'):
+            print 'Cache folder not found, attemping to create'
+            try:
+                os.makedirs('./cache')
+            except OSError as exception:
+                if exception.errno != errno.EEXIST:
+                    raise
     
         print  "[%s] Starting TransitLive Updater" % time.time()
 
