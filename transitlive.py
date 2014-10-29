@@ -306,14 +306,6 @@ class TransitLiveUpdater:
         import socket
     	socket.setdefaulttimeout(8)
 
-        if not os.path.exists('./cache'):
-            print 'Cache folder not found, attemping to create'
-            try:
-                os.makedirs('./cache')
-            except OSError as exception:
-                if exception.errno != errno.EEXIST:
-                    raise
-    
         print  "[%s] Starting TransitLive Updater" % time.time()
 
         self.debug = debug
@@ -326,6 +318,15 @@ class TransitLiveUpdater:
 
         
     def prepare_database(self):
+
+        if not os.path.exists('./cache'):
+            print 'Cache folder not found, attemping to create'
+            try:
+                os.makedirs('./cache')
+            except OSError as exception:
+                if exception.errno != errno.EEXIST:
+                    raise
+
         self.database = sqlite3.connect(TransitLiveUpdater.DATABASE, check_same_thread=False)
         
         self.database.execute("CREATE TABLE IF NOT EXISTS locations " \
