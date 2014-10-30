@@ -14,7 +14,6 @@ class TransitLive:
 
     API = {
         'MAIN': 'http://transitlive.com/%s',
-        #'BUS_INFO': ['ajax/livemap.php?action=dev_bus&a=0&low=0', 'busID'],
         'BUS_INFO': ['json/buses.js', 'busID'],
         'ROUTE_INFO': ['ajax/livemap.php?action=get_routes', 'routeID'],
         'STOP_TIMES': 'ajax/livemap.php?action=stop_times&stop=%s&routes=%s&lim=%s',
@@ -298,9 +297,10 @@ class Detour:
         
 class TransitLiveUpdater:
 
-    ROUTES_FILE = "cache/routes.pkl"
-    DETOURS_FILE = "cache/detours.pkl"
-    DATABASE = "cache/transitlive.db"
+    CACHE_DIR = "./cache"
+    ROUTES_FILE = CACHE_DIR + "/routes.pkl"
+    DETOURS_FILE = CACHE_DIR + "/detours.pkl"
+    DATABASE = CACHE_DIR + "/transitlive.db"
 
     def __init__(self, debug=False):
 
@@ -320,9 +320,9 @@ class TransitLiveUpdater:
         
     def prepare_database(self):
 
-        if not os.path.exists('./cache'):
+        if not os.path.exists(TransitLiveUpdater.CACHE_DIR):
             try:
-                os.makedirs('./cache')
+                os.makedirs(TransitLiveUpdater.CACHE_DIR)
             except OSError as exception:
                 if exception.errno != errno.EEXIST:
                     raise
