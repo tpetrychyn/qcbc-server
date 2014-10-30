@@ -14,7 +14,8 @@ class TransitLive:
 
     API = {
         'MAIN': 'http://transitlive.com/%s',
-        'BUS_INFO': ['ajax/livemap.php?action=dev_bus&a=0&low=0', 'busID'],
+        #'BUS_INFO': ['ajax/livemap.php?action=dev_bus&a=0&low=0', 'busID'],
+        'BUS_INFO': ['json/buses.js', 'busID'],
         'ROUTE_INFO': ['ajax/livemap.php?action=get_routes', 'routeID'],
         'STOP_TIMES': 'ajax/livemap.php?action=stop_times&stop=%s&routes=%s&lim=%s',
         'DETOURS': 'ajax/livemap.php?action=detours',
@@ -214,12 +215,12 @@ class BusLocation:
     def __init__(self, fields_dict=None, fields_list=None):
 
         if fields_dict is not None:
-            self.bus_id = int(fields_dict.get('bus_id', ''))
-            self.route_id = int(fields_dict.get('route_id', ''))
-            self.latitude = float(fields_dict.get('latitude', ''))
-            self.longitude = float(fields_dict.get('longitude', ''))
+            self.bus_id = int(fields_dict['properties']['b'])
+            self.route_id = int(fields_dict['properties']['r'])
+            self.latitude = float(fields_dict['geometry']['coordinates'][1])
+            self.longitude = float(fields_dict['geometry']['coordinates'][0])
             self.bearing = 0 #int(fields_dict.get('bearing', ''))
-            self.desc = fields_dict.get('line_name', '')
+            self.desc = fields_dict['properties']['line']
             self.timestamp = int(fields_dict.get('timestamp', int(time.time())))
 
         elif fields_list is not None:
@@ -320,7 +321,6 @@ class TransitLiveUpdater:
     def prepare_database(self):
 
         if not os.path.exists('./cache'):
-            print 'Cache folder not found, attemping to create'
             try:
                 os.makedirs('./cache')
             except OSError as exception:
